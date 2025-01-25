@@ -22,7 +22,7 @@ if "data" not in st.session_state:
 # Button to regenerate histogram data
 if st.button("Regenerate Histogram"):
     st.session_state.data, st.session_state.random_mean, st.session_state.random_std = generate_data()
-    st.experimental_rerun()
+    #st.experimental_rerun()
 
 # Retrieve the current data and parameters
 data = st.session_state.data
