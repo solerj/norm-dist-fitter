@@ -16,7 +16,7 @@ data = np.random.normal(loc=random_mean, scale=random_std, size=1000)
 
 # User inputs for mean and variance
 mean = st.slider("Mean", -5.0, 5.0, 0.0, step=0.1)
-std = st.slider("Standard Deviation", 0.1, 5, 1.0, step=0.1)
+std = st.slider("Standard Deviation", 0.1, 5.0, 1.0, step=0.1)
 
 # Create histogram and normal distribution
 x = np.linspace(-10, 10, 1000)
