@@ -11,12 +11,12 @@ Use the sliders to adjust the Mean and Standard Deviation to fit a normal distri
 # Generate data
 np.random.seed(42)  # Set seed for reproducibility
 random_mean = np.random.uniform(-3, 3)  # Random mean between -1 and 1
-random_std = np.random.uniform(0.5, 1.5)  # Random std between 0.5 and 1.5
+random_std = np.random.uniform(0.5, 3)  # Random std between 0.5 and 3
 data = np.random.normal(loc=random_mean, scale=random_std, size=1000)
 
 # User inputs for mean and variance
 mean = st.slider("Mean", -5.0, 5.0, 0.0, step=0.1)
-std = st.slider("Standard Deviation", 0.1, 10.0, 1.0, step=0.1)
+std = st.slider("Standard Deviation", 0.1, 5, 1.0, step=0.1)
 
 # Create histogram and normal distribution
 x = np.linspace(-10, 10, 1000)
