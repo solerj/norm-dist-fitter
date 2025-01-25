@@ -8,11 +8,25 @@ st.write("""
 Use the sliders to adjust the Mean and Standard Deviation to fit a normal distribution to the histogram of randomly generated data.
 """)
 
-# Generate data
-np.random.seed(42)  # Set seed for reproducibility
-random_mean = np.random.uniform(-3, 3)  # Random mean between -1 and 1
-random_std = np.random.uniform(0.5, 3)  # Random std between 0.5 and 3
-data = np.random.normal(loc=random_mean, scale=random_std, size=1000)
+# Function to generate random data
+def generate_data():
+    random_mean = np.random.uniform(-3, 3)  # Random mean between -3 and 3
+    random_std = np.random.uniform(1, 3)  # Random std between 0.5 and 3
+    data = np.random.normal(loc=random_mean, scale=random_std, size=1000)
+    return data, random_mean, random_std
+
+# Generate initial data
+if "data" not in st.session_state:
+    st.session_state.data, st.session_state.random_mean, st.session_state.random_std = generate_data()
+
+# Button to regenerate histogram data
+if st.button("Regenerate Histogram"):
+    st.session_state.data, st.session_state.random_mean, st.session_state.random_std = generate_data()
+
+# Retrieve the current data and parameters
+data = st.session_state.data
+random_mean = st.session_state.random_mean
+random_std = st.session_state.random_std
 
 # User inputs for mean and variance
 mean = st.slider("Mean", -5.0, 5.0, 0.0, step=0.1)
