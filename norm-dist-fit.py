@@ -15,9 +15,6 @@ def generate_data():
     data = np.random.normal(loc=random_mean, scale=random_std, size=1000)
     return data, random_mean, random_std
 
-random_mean_data = np.mean(data)
-random_std_data = np.std(data)
-
 # Generate initial data
 if "data" not in st.session_state:
     st.session_state.data, st.session_state.random_mean, st.session_state.random_std = generate_data()
@@ -52,7 +49,10 @@ ax.set_title("Fitting a Normal Distribution")
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+random_mean_data = np.mean(data)
+random_std_data = np.std(data)
+
 # Button to check parameters
 if st.button("Check Parameters"):
     st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
-    st.write(f"**Inputted Variance:** {std**2:.2f}, **Actual Variance:** {random_std_data**2:.2f}")
+    st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
