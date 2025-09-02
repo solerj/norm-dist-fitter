@@ -58,9 +58,15 @@ if st.button("Check Parameters"):
     st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
 
     error = round(abs(mean-random_mean_data)/random_mean_data*100,1)
-    st.write(f"""
-    Amazing! You were very close. Your error is just {error:.2f}%. Well done.
-    """)
+    if error<10
+        st.write(f"""
+        Amazing! You were very close. Your error is just {error:.2f}%. Well done.
+        """)
+    else
+        st.write(f"""
+        Ouch! Some thing went wrong. There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
+        """)
+
 
 
 
