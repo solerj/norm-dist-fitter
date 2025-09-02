@@ -4,9 +4,9 @@ import streamlit as st
 
 # Title and description
 st.title("Normal Distribution Fitter")
-st.write("""
+st.write("
 Fit a normal distribution to the data below by adjusting the sliders for the Mean and Standard Deviation. Then click on "Check Parameters" to compare your estimates with the actual parameters of the data
-""")
+")
 
 # Function to generate random data
 def generate_data():
@@ -56,3 +56,7 @@ random_std_data = np.std(data)
 if st.button("Check Parameters"):
     st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
     st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
+
+st.write(f"
+Amazing! You were very close. Your error is just ({mean:.2f}-{random_mean_data:.2f})/({mean:.2f}). Well done.
+")
