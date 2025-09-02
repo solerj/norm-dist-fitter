@@ -62,10 +62,11 @@ if st.button("Check Parameters"):
         st.write(f"""
         Amazing! You were very close. Your error is just {error:.2f}%. Well done.
         """)
-    else
+    else:
         st.write(f"""
         Ouch! There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
         """)
+
 
 
 
