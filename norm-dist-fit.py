@@ -57,8 +57,11 @@ if st.button("Check Parameters"):
     st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
     st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
 
+error = round(abs(mean-random_mean_data)/random_mean_data/100,2)
+
 st.write(f"""
-Amazing! You were very close. Your error is just ({mean:.2f}-{random_mean_data:.2f})/({mean:.2f}). Well done.
+Amazing! You were very close. Your error is just {error:.2f}%. Well done.
 """)
+
 
 
