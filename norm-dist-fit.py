@@ -5,7 +5,7 @@ import streamlit as st
 # Title and description
 st.title("Normal Distribution Fitter")
 st.write("""
-Use the sliders to adjust the Mean and Standard Deviation to fit a normal distribution to the histogram of randomly generated data.
+Fit a normal distribution to the data below by adjusting the sliders for the Mean and Standard Deviation. Then click on "Check Parameters" to compare your estimates with the actual parameters of the data
 """)
 
 # Function to generate random data
@@ -38,7 +38,7 @@ x = np.linspace(-10, 10, 1000)
 y = (1 / np.sqrt(2 * np.pi * (std**2))) * np.exp(-0.5 * ((x - mean) ** 2 / (std**2)))
 
 fig, ax = plt.subplots()
-ax.hist(data, bins=30, density=True, alpha=0.6, color="green", label="Data Histogram")
+ax.hist(data, bins=30, density=True, alpha=0.6, color="green", label="Histogram")
 ax.plot(x, y, 'r-', lw=2, label="Fitted Normal Distribution")
 ax.set_ylim(0, 0.5)
 ax.set_xlabel("Value")
