@@ -5,10 +5,15 @@ import os
 from openai import OpenAI
 
 # Title and description
-st.title("Normal Distribution Fitter")
+st.title("Can you fit a Normal Distribution?")
 st.write("""
-Fit a normal distribution to the data below by adjusting the sliders for the Mean and Standard Deviation. Then click on "Check Parameters" to compare your estimates with the actual parameters of the data.
-""")
+         Fit a normal distribution to the data below by adjusting the sliders for the Mean and Standard Deviation.
+         This will help you build intuition and confidence around the normal distribution.
+         When you are happy with your choice of parameter values, click on "Check Parameters" to compare your estimates with the actual parameters of the data.
+         If your estimates are off, don't worry! You will be guided on where you went wrong and you can try again.
+         
+         To repeat the exercise with new data, simply click on "Regenerate Histogram".
+         """)
 
 # Function to generate random data
 def generate_data():
@@ -59,38 +64,41 @@ if st.button("Check Parameters"):
     # st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
     # st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
 
-    # error = round(abs(mean-random_mean_data)/abs(random_mean_data)*100,1)
-    # if error<10:
-    #     st.write(f"""
-    #     Amazing! You were very close. Your error is just {error:.2f}%. Well done.
-    #     """)
-    # else:
-    #     st.write(f"""
-    #     Ouch! There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
-    #     """)
+    mean_error = abs(mean-random_mean_data)/abs(random_mean_data)*100
+    std_error = abs(std-random_std_data)/abs(random_std_data)*100
 
-    #chatbot support ------------------------------------
+    if (mean_error<10 and std_error<10):
+        st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
+        st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
+        st.write(f"""
+                 Amazing! Your intuition is spot-on! Well done.
+                 You can try the exercise again with new data by clicking on "Regenerate Histogram".
+                 """)
+    else:
+        #chatbot support ------------------------------------
+        SYSTEM_PROMPT = f"""
+        You are a helpful assistant that answers questions about statistics and data analysis.
+        The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
+        The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
+        The student was off by at least +/-0.15 error, so guide them where they went wrong and encourage them to try again by adjusting the sliders and clicking on "Check Parameters" again.
+        If the mean is off, explain that their mistake is that the normal distribution is shifted too far left or right compared to the histogram.
+        If the standard deviation is off, explain that their mistake is that the normal distribution is either too narrow or too wide compared to the histogram.
+        Do not share the actual mean and standard deviation to the student.
+        Be as concise as possible and show digit-by-digit arithmetic.
+        """
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            st.error("Please set the OPENAI_API_KEY environment variable.")
+            st.stop()
+        client = OpenAI(api_key=api_key)
+        
+        r = client.responses.create(
+            model="gpt-4o-mini",
+            input=[{"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": f"""The mean and the standard deviation I inputted are {mean:.2f} and {std:.2f}, respectively. Are my estimates correct?"""}],
+                    max_output_tokens=500,
+                    temperature=0.2
+        )
+        st.write(r.output_text)
 
-    SYSTEM_PROMPT = f"""
-    You are a helpful assistant that answers questions about statistics and data analysis.
-    The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
-    The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
-    Congratulate the student if their estimates are close to the actual values (within +/- 0.15 error), otherwise encourage them to try again and guiding them where they went wrong.
-    No need to calculate and share the exact error that the student got, just give qualitative feedback.
-    Be as concise as possible and show digit-by-digit arithmetic.
-    """
-    
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        st.error("Please set the OPENAI_API_KEY environment variable.")
-        st.stop()
-    client = OpenAI(api_key=api_key)
-    
-    r = client.responses.create(
-        model="gpt-4o-mini",
-        input=[{"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"""The mean and the standard deviation I inputted are {mean:.2f} and {std:.2f}, respectively. How good are my estimates?"""}],
-                max_output_tokens=500,
-                temperature=0.2
-    )
-    st.write(r.output_text)
+print(os.getenv("OPENAI_API_KEY"))
