@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
+import os
+from openai import OpenAI
 
 # Title and description
 st.title("Normal Distribution Fitter")
