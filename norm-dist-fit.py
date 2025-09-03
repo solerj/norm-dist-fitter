@@ -84,9 +84,9 @@ if st.button("Check Parameters"):
     question = st.text_input("Ask a statistics question:")
 
     r = client.responses.create(
-        model="gpt-4.0-mini",
+        model="gpt-4o-mini",
         input=[{"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": question}],
+                {"role": "user", "content": "What is variance?"}],
                 max_output_tokens=500,
                 temperature=0.2
     )
