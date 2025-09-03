@@ -71,8 +71,12 @@ if st.button("Check Parameters"):
 
     #chatbot support ------------------------------------
 
-    SYSTEM_PROMPT = """
-    You are a helpful assistant that answers questions about statistics and data analysis. Be concise and show digit-by-digit arithmetic.
+    SYSTEM_PROMPT = f"""
+    You are a helpful assistant that answers questions about statistics and data analysis.
+    The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
+    The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
+    Compare what the student inputs with the actual values and provide feedback.
+    Be concise and show digit-by-digit arithmetic.
     """
     
     api_key = os.getenv("OPENAI_API_KEY")
@@ -81,12 +85,10 @@ if st.button("Check Parameters"):
         st.stop()
     client = OpenAI(api_key=api_key)
     
-    question = st.text_input("Ask a statistics question:")
-
     r = client.responses.create(
         model="gpt-4o-mini",
         input=[{"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": "What is variance?"}],
+                {"role": "user", "content": f"""The mean and the standard deviation I inputted are {mean:.2f} and {std:.2f}, respectively. How good are my estimates?"""}],
                 max_output_tokens=500,
                 temperature=0.2
     )
