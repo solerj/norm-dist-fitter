@@ -67,22 +67,44 @@ if st.button("Check Parameters"):
     mean_error = abs(mean-random_mean_data)/abs(random_mean_data)*100
     std_error = abs(std-random_std_data)/abs(random_std_data)*100
 
-    if (mean_error<10 and std_error<10):
+    if (mean_error<15 and std_error<15):
         st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
         st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
         st.write(f"""
                  Amazing! Your intuition is spot-on! Well done.
                  You can try the exercise again with new data by clicking on "Regenerate Histogram".
                  """)
+    #chatbot support ------------------------------------
+    elif (mean_error<15 and std_error>=15):
+        SYSTEM_PROMPT = f"""
+        You are a helpful assistant that answers questions about statistics and data analysis.
+        The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
+        The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
+        The student was close enough on the mean, but was off by at least +/-0.15 error in the standard deviation.
+        So guide them where they went wrong and encourage them to try again by adjusting the sliders and clicking on "Check Parameters" again.
+        Explain that their mistake is that the normal distribution is either too narrow or too wide compared to the histogram.
+        Do not share the actual mean and standard deviation to the student.
+        Be as concise as possible and show digit-by-digit arithmetic.
+        """
+    elif (mean_error>=15 and std_error<15):
+        SYSTEM_PROMPT = f"""
+        You are a helpful assistant that answers questions about statistics and data analysis.
+        The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
+        The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
+        The student was close enough on the standard deviation, but was off by at least +/-0.15 error in the mean.
+        So guide them where they went wrong and encourage them to try again by adjusting the sliders and clicking on "Check Parameters" again.
+        Explain that their mistake is that the normal distribution is shifted too far left or right compared to the histogram.
+        Do not share the actual mean and standard deviation to the student.
+        Be as concise as possible and show digit-by-digit arithmetic.
+        """
     else:
-        #chatbot support ------------------------------------
         SYSTEM_PROMPT = f"""
         You are a helpful assistant that answers questions about statistics and data analysis.
         The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
         The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
         The student was off by at least +/-0.15 error, so guide them where they went wrong and encourage them to try again by adjusting the sliders and clicking on "Check Parameters" again.
-        If the mean is off, explain that their mistake is that the normal distribution is shifted too far left or right compared to the histogram.
-        If the standard deviation is off, explain that their mistake is that the normal distribution is either too narrow or too wide compared to the histogram.
+        Explain that their mistake is that the normal distribution is shifted too far left or right compared to the histogram.
+        Explain also that their mistake is that the normal distribution is either too narrow or too wide compared to the histogram.
         Do not share the actual mean and standard deviation to the student.
         Be as concise as possible and show digit-by-digit arithmetic.
         """
@@ -100,5 +122,3 @@ if st.button("Check Parameters"):
                     temperature=0.2
         )
         st.write(r.output_text)
-
-print(os.getenv("OPENAI_API_KEY"))
