@@ -56,18 +56,18 @@ random_std_data = np.std(data)
 
 # Button to check parameters
 if st.button("Check Parameters"):
-    st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
-    st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
+    # st.write(f"**Inputted Mean:** {mean:.2f}, **Actual Mean:** {random_mean_data:.2f}")
+    # st.write(f"**Inputted Standard Deviation:** {std:.2f}, **Actual Standard Deviation:** {random_std_data:.2f}")
 
-    error = round(abs(mean-random_mean_data)/abs(random_mean_data)*100,1)
-    if error<10:
-        st.write(f"""
-        Amazing! You were very close. Your error is just {error:.2f}%. Well done.
-        """)
-    else:
-        st.write(f"""
-        Ouch! There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
-        """)
+    # error = round(abs(mean-random_mean_data)/abs(random_mean_data)*100,1)
+    # if error<10:
+    #     st.write(f"""
+    #     Amazing! You were very close. Your error is just {error:.2f}%. Well done.
+    #     """)
+    # else:
+    #     st.write(f"""
+    #     Ouch! There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
+    #     """)
 
     #chatbot support ------------------------------------
 
@@ -75,7 +75,7 @@ if st.button("Check Parameters"):
     You are a helpful assistant that answers questions about statistics and data analysis.
     The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
     The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
-    Compare what the student inputs with the actual values and provide feedback.
+    Congratulate the student if their estimates are close to the actual values (within 10% error), otherwise encourage them to try again and guiding them where they went wrong.
     Be concise and show digit-by-digit arithmetic.
     """
     
