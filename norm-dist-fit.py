@@ -75,8 +75,9 @@ if st.button("Check Parameters"):
     You are a helpful assistant that answers questions about statistics and data analysis.
     The exercise for the student is to manually adjust sliders that represent the mean and standard deviation of a normal distribution such that it fits a histogram of data as well as possible.
     The actual mean and standard deviation of the data are {random_mean_data:.2f} and {random_std_data:.2f}, respectively.
-    Congratulate the student if their estimates are close to the actual values (within 10% error), otherwise encourage them to try again and guiding them where they went wrong.
-    Be concise and show digit-by-digit arithmetic.
+    Congratulate the student if their estimates are close to the actual values (within +/- 0.15 error), otherwise encourage them to try again and guiding them where they went wrong.
+    No need to calculate and share the exact error that the student got, just give qualitative feedback.
+    Be as concise as possible and show digit-by-digit arithmetic.
     """
     
     api_key = os.getenv("OPENAI_API_KEY")
