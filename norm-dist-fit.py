@@ -67,10 +67,25 @@ if st.button("Check Parameters"):
         Ouch! There is a difference of {error:.2f}% between your estimate and the actual mean. Try again.
         """)
 
+    #chatbot support ------------------------------------
 
+    SYSTEM_PROMPT = """
+    You are a helpful assistant that answers questions about statistics and data analysis. Be concise and show digit-by-digit arithmetic.
+    """
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        st.error("Please set the OPENAI_API_KEY environment variable.")
+        st.stop()
+    client = OpenAI(api_key=api_key)
+    
+    question = st.text_input("Ask a statistics question:")
 
-
-
-
-
-
+    r = client.responses.create(
+        model="gpt-4.0-mini",
+        input=[{"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": question}],
+                max_output_tokens=500,
+                temperature=0.2
+    )
+    st.write(r.output_text)
